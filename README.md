@@ -1,10 +1,9 @@
 # Make App Icon
 
-## Installation
-
-`pip install termcolor`
-`pip install python-resize-image`
-
 ## How to use?
+`python processor.py -i /path/to/image -o /path/to/output`
 
-`python processor.py /path/to/image`
+Arguments:
+
+* `-i|--input`: The input source
+* `-o|--output`: The output directory which new icons saved to
