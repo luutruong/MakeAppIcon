@@ -1,14 +1,13 @@
 #!/usr/bin/python
 
 import sys
-from termcolor import colored
 import os
 from PIL import Image
 import json
 
 def generateAppStoreIcons(file_path, size, output, contents):
   if os.path.exists(output) == False:
-    print colored('-> Output directory not exists. Create new: ' + output);
+    print '-> Output directory not exists. Create new: ' + output;
     os.makedirs(output)
 
   file_name = os.path.basename(file_path)
@@ -40,12 +39,12 @@ def generateAppStoreIcons(file_path, size, output, contents):
 
 def main():
   if len(sys.argv) < 2:
-    print colored(" > Invalid command.\nMust be run `python maker.py /path/to/image`", 'red')
+    print " > Invalid command.\nMust be run `python maker.py /path/to/image`"
     sys.exit()
 
   source = sys.argv[1]
   if os.path.exists(source) == False:
-    print colored(' > ' + source, 'red') + colored(' not exists');
+    print ' > ' + source + ' not exists';
     sys.exit()
 
   output_dir = './results'
