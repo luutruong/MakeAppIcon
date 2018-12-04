@@ -18,6 +18,16 @@ def generateIOSAppIcon(source, base_size, scale, output_dir, device, app_content
   size_scaled = int(base_size * scale)
   save_path = save_template.format(output_dir, file_name_parts[0], base_size, scale, file_name_parts[1])
 
+  if os.path.exists(save_path) == True:
+    app_contents['images'].append({
+      "idiom": device,
+      "size": "{0}x{0}".format(base_size),
+      "scale": "{0}x".format(scale),
+      "filename": os.path.basename(save_path)
+    });
+
+    return
+
   with open(source, 'r+b') as f:
     with Image.open(f) as image:
       base_image = Image.new('RGBA', (size_scaled, size_scaled), color='white')
@@ -28,7 +38,7 @@ def generateIOSAppIcon(source, base_size, scale, output_dir, device, app_content
       base_image.save(save_path, format='png', quality=100)
       app_contents['images'].append({
         "idiom": device,
-        "size": "{0}x{0}".format(size_scaled),
+        "size": "{0}x{0}".format(base_size),
         "scale": "{0}x".format(scale),
         "filename": os.path.basename(save_path)
       })
@@ -110,7 +120,9 @@ def main():
   }
   
   # iphone
+  generateIOSAppIcon(source, 60, 2, output_dir + '/ios/AppIcon.appiconset', 'iphone', app_icon_contents)
   generateIOSAppIcon(source, 60, 3, output_dir + '/ios/AppIcon.appiconset', 'iphone', app_icon_contents)
+
   generateIOSAppIcon(source, 40, 3, output_dir + '/ios/AppIcon.appiconset', 'iphone', app_icon_contents)
   generateIOSAppIcon(source, 40, 2, output_dir + '/ios/AppIcon.appiconset', 'iphone', app_icon_contents)
   generateIOSAppIcon(source, 29, 3, output_dir + '/ios/AppIcon.appiconset', 'iphone', app_icon_contents)
@@ -121,6 +133,21 @@ def main():
   # ipad
   generateIOSAppIcon(source, 83.5, 2, output_dir + '/ios/AppIcon.appiconset', 'ipad', app_icon_contents)
   generateIOSAppIcon(source, 76, 2, output_dir + '/ios/AppIcon.appiconset', 'ipad', app_icon_contents)
+  generateIOSAppIcon(source, 76, 1, output_dir + '/ios/AppIcon.appiconset', 'ipad', app_icon_contents)
+  generateIOSAppIcon(source, 40, 2, output_dir + '/ios/AppIcon.appiconset', 'ipad', app_icon_contents)
+  generateIOSAppIcon(source, 40, 1, output_dir + '/ios/AppIcon.appiconset', 'ipad', app_icon_contents)
+  generateIOSAppIcon(source, 29, 2, output_dir + '/ios/AppIcon.appiconset', 'ipad', app_icon_contents)
+  generateIOSAppIcon(source, 29, 1, output_dir + '/ios/AppIcon.appiconset', 'ipad', app_icon_contents)
+  generateIOSAppIcon(source, 20, 2, output_dir + '/ios/AppIcon.appiconset', 'ipad', app_icon_contents)
+  generateIOSAppIcon(source, 20, 1, output_dir + '/ios/AppIcon.appiconset', 'ipad', app_icon_contents)
+
+  generateItunesAtWorkIcon(source, 1024, 1, output_dir + '/ios/AppIcon.appiconset')
+  app_icon_contents['images'].append({
+    "idiom": 'ios-marketing',
+    "size": "1024x1024",
+    "scale": "1x",
+    "filename": 'iTunesArtwork@1x.png'
+  });
 
   with open (output_dir + '/ios/AppIcon.appiconset/Contents.json', 'w+') as output_file:
     json.dump(app_icon_contents, output_file, indent=2)
