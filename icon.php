@@ -27,7 +27,6 @@ if ($output === null) {
 if (!\is_dir($output)) {
     throw new \RuntimeException('Output must be a directory!');
 }
-$output .= DIRECTORY_SEPARATOR . 'AppIcon-' . time();
 
 function resizeImage($source, $size, $output) {
     $imageInfo = getimagesize($source);
