@@ -72,7 +72,7 @@ function appStoreIcon($source, array &$contents, $size, $scale, $idiom = 'iphone
     if ($idiom === 'ios-marketing') {
         $filename = 'iTunesArtwork@1x.png';
     } else {
-        $filename = "AppIcon-{$size}@{$scale}x.png";
+        $filename = "AppIcon-{$size}x{$size}@{$scale}x.png";
     }
     $outputIcon = $output . DIRECTORY_SEPARATOR . "/AppIcon.appiconset/{$filename}";
     $outputDir = dirname($outputIcon);
