@@ -25,7 +25,7 @@ if ($output === null) {
     $output = dirname($source);
 }
 if (!\is_dir($output)) {
-    throw new \RuntimeException('Output must be a directory!');
+    mkdir($output, 0755, true);
 }
 
 function resizeImage($source, $size, $output) {
