@@ -175,7 +175,7 @@ foreach ($appStoreIconSets as $idiom => $set) {
 
 // Generate android play store icons
 $androidIconSets = [
-    'mipmap-hdpi' => 192,
+    'mipmap-hdpi' => 72,
     'mipmap-mdpi' => 48,
     'mipmap-xhdpi' => 96,
     'mipmap-xxhdpi' => 144,
