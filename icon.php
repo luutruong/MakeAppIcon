@@ -200,3 +200,5 @@ foreach ($androidIconSets as $sizeName => $size) {
 
 echo 'All icons generated!' . PHP_EOL;
 echo 'Output directory: ' . $output . PHP_EOL;
+
+exit(0);
