@@ -69,7 +69,12 @@ function resizeImage($source, $size, $output) {
 function appStoreIcon($source, array &$contents, $size, $scale, $idiom = 'iphone') {
     global $output;
 
-    $outputIcon = $output . DIRECTORY_SEPARATOR . "/AppIcon.appiconset/AppIcon-{$size}@{$scale}x.png";
+    if ($idiom === 'ios-marketing') {
+        $filename = 'iTunesArtwork@1x.png';
+    } else {
+        $filename = "AppIcon-{$size}@{$scale}x.png";
+    }
+    $outputIcon = $output . DIRECTORY_SEPARATOR . "/AppIcon.appiconset/{$filename}";
     $outputDir = dirname($outputIcon);
     if (!is_dir($outputDir)) {
         mkdir($outputDir, 0755, true);
