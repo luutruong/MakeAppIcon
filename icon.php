@@ -22,15 +22,15 @@ if (!\file_exists($source)) {
 }
 
 if ($output === null) {
-    $output = dirname($source);
+    $output = \dirname($source);
 }
 if (!\is_dir($output)) {
-    mkdir($output, 0755, true);
+    \mkdir($output, 0755, true);
 }
 
 function resizeImage($source, $size, $output) {
-    $imageInfo = getimagesize($source);
-    if (!is_array($imageInfo)) {
+    $imageInfo = \getimagesize($source);
+    if (!\is_array($imageInfo)) {
         throw new \InvalidArgumentException('Source must be a image!');
     }
     if ($imageInfo[2] !== IMAGETYPE_PNG) {
@@ -38,11 +38,15 @@ function resizeImage($source, $size, $output) {
     }
     list ($width, $height) = $imageInfo;
 
-    $tempFile = tempnam('/tmp', '');
+    $tempFile = \tempnam('/tmp', '');
 
-    file_put_contents($tempFile, file_get_contents($source));
+    \file_put_contents($tempFile, \file_get_contents($source));
 
     $image = \imagecreatefrompng($source);
+    if ($imageInfo[2] === IMAGETYPE_PNG) {
+        \imageinterlace($image, true);
+    }
+
     \imagealphablending($image, true);
     \imagesavealpha($image, true);
 
@@ -63,7 +67,7 @@ function resizeImage($source, $size, $output) {
     \imagedestroy($image);
     \imagedestroy($newImage);
 
-    unlink($tempFile);
+    \unlink($tempFile);
 }
 
 function appStoreIcon($source, array &$contents, $size, $scale, $idiom = 'iphone') {
@@ -75,15 +79,15 @@ function appStoreIcon($source, array &$contents, $size, $scale, $idiom = 'iphone
         $filename = "AppIcon-{$size}x{$size}@{$scale}x.png";
     }
     $outputIcon = $output . DIRECTORY_SEPARATOR . "/AppIcon.appiconset/{$filename}";
-    $outputDir = dirname($outputIcon);
-    if (!is_dir($outputDir)) {
-        mkdir($outputDir, 0755, true);
+    $outputDir = \dirname($outputIcon);
+    if (!\is_dir($outputDir)) {
+        \mkdir($outputDir, 0755, true);
     }
 
     $contents['images'][] = [
         'size' => "{$size}x{$size}",
         'idiom' => $idiom,
-        'filename' => basename($outputIcon),
+        'filename' => \basename($outputIcon),
         'scale' => "{$scale}x"
     ];
 
@@ -145,9 +149,9 @@ foreach ($appStoreIconSets as $idiom => $set) {
     foreach ($set['sizes'] as $size) {
         foreach ($set['scales'] as $scale) {
             if (isset($set['scaleVerifyCallback'])) {
-                $valid = call_user_func($set['scaleVerifyCallback'], $size, $scale);
+                $valid = \call_user_func($set['scaleVerifyCallback'], $size, $scale);
                 if ($valid !== true) {
-                    echo sprintf('Skip generate app store image. $idiom=%s $size=%d $scale=%d' . PHP_EOL,
+                    echo \sprintf('Skip generate app store image. $idiom=%s $size=%d $scale=%d' . PHP_EOL,
                         $idiom,
                         $size,
                         $scale
@@ -157,7 +161,7 @@ foreach ($appStoreIconSets as $idiom => $set) {
                 }
             }
 
-            echo sprintf('Generate app store image. $idiom=%s $size=%d $scale=%d' . PHP_EOL,
+            echo \sprintf('Generate app store image. $idiom=%s $size=%d $scale=%d' . PHP_EOL,
                 $idiom,
                 $size,
                 $scale
@@ -185,12 +189,12 @@ $androidIconSets = [
 $androidOutput = $output . DIRECTORY_SEPARATOR . 'android';
 foreach ($androidIconSets as $sizeName => $size) {
     $androidOutputFile = $androidOutput . DIRECTORY_SEPARATOR . $sizeName . DIRECTORY_SEPARATOR . 'ic_launcher.png';
-    $androidOutputFileDir = dirname($androidOutputFile);
-    if (!is_dir($androidOutputFileDir)) {
-        mkdir($androidOutputFileDir, 0755, true);
+    $androidOutputFileDir = \dirname($androidOutputFile);
+    if (!\is_dir($androidOutputFileDir)) {
+        \mkdir($androidOutputFileDir, 0755, true);
     }
 
-    echo sprintf('Generate android app icon $sizeName=%s $size=%d $output=%s' . PHP_EOL,
+    echo \sprintf('Generate android app icon $sizeName=%s $size=%d $output=%s' . PHP_EOL,
         $sizeName,
         $size,
         $androidOutputFile
