@@ -52,6 +52,7 @@ function resizeImage($source, $size, $output) {
 
     $newImage = \imagecreatetruecolor($size, $size);
     \imagecolorallocate($newImage, 255, 255, 255);
+    \imageinterlace($newImage, true);
 
     \imagecopyresampled(
         $newImage,
